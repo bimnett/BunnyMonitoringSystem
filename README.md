@@ -1,5 +1,8 @@
 # Bunny Monitoring System (BMS)
 
+![BMS_GitHub_Logo](https://github.com/bimnett/bunny-monitoring-system/assets/48647978/7b961e36-24ec-4691-a6e2-18606defbcaf)
+Designed by [Freepik](https://www.freepik.com/free-vector/rabbit-orange-mascot-logo_42435690.htm#fromView=search&page=1&position=0&uuid=5f41ff30-cb7c-4443-b868-ebc5ea200df7)
+
 ## Navigation Menu
 - [Project Description](#project-description)
 - [Purpose & Benefits](#purpose--benefits)
