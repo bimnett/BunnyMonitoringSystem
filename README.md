@@ -1,5 +1,11 @@
 # Bunny Monitoring System (BMS)
 
+## Navigation Menu
+- [Project Description](#project-description)
+- [Purpose & Benefits](#purpose--benefits)
+- [License](#license)
+
+## Project Description
 Welcome to the Bunny Monitoring System repository! This project consists of an embedded system designed to monitor the environment of bunny enclosures combined with a web application component for real-time monitoring and analysis. 
 
 ## Purpose & Benefits
