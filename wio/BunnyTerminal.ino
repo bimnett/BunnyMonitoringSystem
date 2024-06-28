@@ -1,23 +1,31 @@
 #include "rpcWiFi.h" // WiFi library
 #include "secrets.h" // Hidden credentials
 #include "utils.h" // Utility methods
-
+#include "mqtt.h" // MQTT methods
 
 
 void setup() {
 
     initializeTFTScreen();
     connectToWiFi();
+    connectToMQTTBroker();
 }
 
 
 
 void loop() {
 
-    // Reconnect to WiFi if it disconnects
+    // Reconnect to WiFi if disconnected
     if(!WiFi.isConnected()) {
 
         connectToWiFi();
+    }
+
+
+    // Reconnect to MQTT broker if disconnected
+    if(!mqttClient.loop()) {
+
+        connectToMQTTBroker();
     }
 }
 
@@ -34,4 +42,5 @@ void connectToWiFi() {
 
     // Display confirmation
     displayText("Connected!", color565(243, 166, 18), color565(116, 1, 8));
+    delay(1500);
 }
