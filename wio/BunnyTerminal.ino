@@ -2,6 +2,7 @@
 #include "secrets.h" // Hidden credentials
 #include "utils.h" // Utility methods
 #include "mqtt.h" // MQTT methods
+#include "environment_sensor.h" // Temperature and Humidity methods
 
 
 unsigned long previousMillis = 0; // Store previous time that temperature and humidity were read
