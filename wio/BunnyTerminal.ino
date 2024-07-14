@@ -4,6 +4,10 @@
 #include "mqtt.h" // MQTT methods
 
 
+unsigned long previousMillis = 0; // Store previous time that temperature and humidity were read
+const long interval = 1000; // Temperature & Humidity reading interval
+
+
 void setup() {
 
     initializeTFTScreen();
@@ -26,6 +30,18 @@ void loop() {
     if(!mqttClient.loop()) {
 
         connectToMQTTBroker();
+    }
+
+
+    unsigned long currentMillis = millis();
+
+    // Check if the interval has passed
+    if (currentMillis - previousMillis >= interval) {
+        // Save the last time you read the sensor
+        previousMillis = currentMillis;
+
+        // Read temperature and humidity
+        readTemperatureAndHumidity();
     }
 }
 
