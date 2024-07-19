@@ -9,8 +9,8 @@ extern float temperature;
 extern float humidity;
 
 void initializeTempHumiSensor();
-void displayTemperature(uint16_t x, uint16_t y);
-void displayHumidity(uint16_t x, uint16_t y);
+void displayTemperature();
+void displayHumidity();
 void readTemperatureAndHumidity();
 
 #endif

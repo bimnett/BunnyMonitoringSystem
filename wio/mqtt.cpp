@@ -1,11 +1,18 @@
 #include "mqtt.h"
 #include "utils.h" // Utility methods
+#include "secrets.h" // Credential variables
 
 
+// Declare MQTT object
+PubSubClient mqttClient;
+WiFiClient wifiClient;
 
+
+// Setup MQTT connection to broker 
 void connectToMQTTBroker() {
 
-    displayText("Connecting to MQTT..", color565(243, 166, 18), color565(116, 1, 8));
+    // Display mqtt connection attempt
+    displayText("Connecting to MQTT..", TFT_BLACK, BMS_ORANGE);
 
 
     // Configure PubSub client with property setters
@@ -15,14 +22,16 @@ void connectToMQTTBroker() {
     mqttClient.setCallback(callback);
         
     
+    // Display successful mqtt connection 
     if(!mqttClient.connected()) {
 
-        displayText("MQTT connection failed.", color565(243, 166, 18), color565(116, 1, 8));
+        displayText("MQTT connection failed.", TFT_BLACK, BMS_ORANGE);
     }
 
+    // Display unsuccessful mqtt connection 
     else {
 
-        displayText("MQTT connected!", color565(243, 166, 18), color565(116, 1, 8));
+        displayText("MQTT connected!", TFT_BLACK, BMS_ORANGE);
     }
 
     delay(2000);
@@ -41,5 +50,5 @@ void callback(char* topic, byte* payload, unsigned int length) {
     }
 
     // Display message
-    displayText(message, color565(243, 166, 18), color565(116, 1, 8));
+    displayText(message, TFT_BLACK, BMS_ORANGE);
 }
