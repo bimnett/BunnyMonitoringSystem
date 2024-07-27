@@ -1,13 +1,22 @@
 <template>
     
+  <TemperatureHumidity />
+
 </template>
 
 
 <script>
 
-export default {
-  name: 'HomeView'
-}
+  import TemperatureHumidity from '@/components/TemperatureHumidity.vue';
+
+  export default {
+
+    name: 'HomeView',
+
+    components: {
+      TemperatureHumidity
+    }
+  }
 
 </script>
 
