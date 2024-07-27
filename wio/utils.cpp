@@ -29,7 +29,7 @@ void initializeTFTScreen() {
 
     tft.begin();
     tft.setRotation(3);
-    setTextSettings(color565(116, 1, 8), color565(243, 166, 18), 2);
+    setTextSettings(BMS_ORANGE, TFT_BLACK, 2);
 }
 
 
@@ -46,7 +46,20 @@ void setTextSettings(uint16_t bgColor, uint16_t textColor, int textSize) {
 
 // Draw text on TFT screen
 void displayText(char* text, uint16_t textColor, uint16_t bgColor) {
+
     tft.fillScreen(bgColor);
     tft.setTextColor(textColor);
     tft.drawString(text, tft.width() / 2, tft.height() / 2);
+}
+
+
+// Display dashboard
+void drawDashboard() {
+
+    tft.setTextColor(BMS_ORANGE);
+    tft.fillScreen(BMS_ORANGE);
+    tft.fillRect(0, 0, tft.width(), tft.height() / 3 - 15, TFT_BLACK);
+
+    tft.drawString("Happy Bunny Monitoring!", tft.width() / 2, 35);
+    tft.drawLine(tft.width() / 2, 35, tft.width() / 2, tft.height(), TFT_BLACK);
 }

@@ -1,11 +1,12 @@
 // Import mqtt node package and hidden credentials
 const mqtt = require('mqtt');
 const { MQTT_HOST } = require('./server_secrets');
+const { getWebSocketServer } = require('./websocket');
 
 
 // Create mqtt client
 const client = mqtt.connect(MQTT_HOST);
-const topic = 'bms/test';
+const topic = 'bms/#';
 
 
 client.on('connect', () => {
@@ -18,24 +19,31 @@ client.on('connect', () => {
             console.log(`Subscribed to ${topic}`);
         }
         else {
-            console.log("An error has occured.")
+            console.log("An error has occured.");
         }
     });
 });
 
 
 client.on('message', (topic, message) => {
+    
+    const wss = getWebSocketServer();
 
-    console.log(`Received message: ${message} from topic: ${topic}`);
+    if(wss) {
+
+        wss.clients.forEach( ws => {
+
+            if (ws.readyState === ws.OPEN) {
+                ws.send(JSON.stringify({ topic, message: message.toString() }));
+            } else {
+                console.log(`WebSocket not open. ReadyState: ${ws.readyState}`);
+            }
+        });
+
+    } else {
+        console.log('WebSocket server (wss) is not initialized');
+    }
 });
 
 
-const publishMessage = (topic, message) => {
-    client.publish(topic, message);
-};
-
-
-module.exports = {
-    client,
-    publishMessage,
-};
+module.exports = { client };

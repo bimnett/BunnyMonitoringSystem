@@ -13,6 +13,7 @@ extern WiFiClient wifiClient;
 // MQTT method signatures
 void connectToMQTTBroker();
 void callback(char* topic, byte* payload, unsigned int length);
+void publishSensorData();
 
 
 #endif
