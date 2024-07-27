@@ -1,6 +1,7 @@
 #include "mqtt.h"
 #include "utils.h" // Utility methods
 #include "secrets.h" // Credential variables
+#include "environment_sensor.h" // Environment collection methods
 
 
 // Declare MQTT object
@@ -37,6 +38,13 @@ void connectToMQTTBroker() {
     delay(2000);
 }
 
+
+// Publish sensor data to MQTT broker
+void publishSensorData() {
+
+    mqttClient.publish("bms/environment/temperature", temperature);
+    mqttClient.publish("bms/environment/humidity", humidity);
+}
 
 
 // MQTT callback function; is called when a message is received. 

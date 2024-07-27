@@ -6,7 +6,7 @@
 
 
 unsigned long previousMillis = 0; // Store previous time that temperature and humidity were read
-const long interval = 1000; // Temperature & Humidity reading interval
+const long interval = 10000; // Temperature & Humidity reading interval
 
 
 void setup() {
@@ -45,6 +45,7 @@ void loop() {
 
         // Read temperature and humidity
         readTemperatureAndHumidity();
+        publishSensorData();
     }
 }
 
