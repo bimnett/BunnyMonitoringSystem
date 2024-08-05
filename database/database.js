@@ -25,7 +25,7 @@ async function connectToDB() {
 
         await client.connect();
 
-        database = client.db('bms');
+        database = client.db('BMS');
         tempCollection = database.collection('temperature');
         humiCollection = database.collection('humidity');
 
