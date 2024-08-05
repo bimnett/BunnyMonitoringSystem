@@ -92,7 +92,7 @@ async function addTempValue(temperature) {
         await connectToDB();
 
         await tempCollection.insertOne({
-            temperature: temp,
+            temperature: temperature,
             time: Date.now()
         })
 
@@ -114,7 +114,7 @@ async function addHumiValue(humidity) {
 
         await humiCollection.insertOne({
 
-            humidity: humi,
+            humidity: humidity,
             time: Date.now()
         })
     } catch (err) {
