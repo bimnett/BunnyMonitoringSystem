@@ -1,11 +1,4 @@
 <template>
-    
-    <div id="environmentData">
-
-      <div id="temperature"> {{ temperature }} °C</div>
-      <div id="humidity"> {{ humidity }}% </div> 
-
-    </div>
   
 
 </template>
@@ -21,6 +14,15 @@ export default {
 
       temperature: null,
       humidity: null
+    }
+  },
+
+  watch: {
+    temperature(newValue) {
+      this.$emit('temperature-update', newValue);
+    },
+    humidity(newValue) {
+      this.$emit('humidity-update', newValue);
     }
   },
 
