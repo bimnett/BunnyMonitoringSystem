@@ -47,15 +47,18 @@ async function getTempHistory() {
 
         const latestReadings = await tempCollection.find()
             .sort({ time: -1 }) // sort by time in descending order to get the latest entries
-            .limit(25)
+            .limit(48)
             .toArray();
+        
+        const timeStamps = getTimeStamps(latestReadings);
+        const temperatureValues = getEnvironmentData(latestReadings, 'temperature');
 
-        return latestReadings;
+        return { timeStamps, temperatureValues };
 
     } catch(err) {
 
         console.log(err);
-    }
+    };
 
     client.close();
 }
@@ -70,17 +73,38 @@ async function getHumiHistory() {
 
         const latestReadings = await humiCollection.find()
             .sort({ time: -1 }) // sort by time in descending order to get the latest entries
-            .limit(25)
+            .limit(48)
             .toArray();
 
-        return latestReadings;
+        const timeStamps = getTimeStamps(latestReadings);
+        const humidityValues = getEnvironmentData(latestReadings, 'humidity');
+
+        return { timeStamps, humidityValues };
 
     } catch(err) {
 
         console.log(err);
-    }
+    };
 
     client.close();
+}
+
+
+// Iterate through JSON array and extract time stamps for visual chart X axis.
+function getTimeStamps(environmentArray) {
+
+    const timeStamps = environmentArray.map(doc => doc.time);
+
+    return timeStamps;
+}
+
+
+// Iterate through JSON array and extract temperature/humidity for visual chart Y axis.
+function getEnvironmentData(environmentArray, environmentDataType) {
+
+    const environmentData = environmentArray.map(doc => doc[environmentDataType]);
+
+    return environmentData;
 }
 
 
@@ -93,13 +117,13 @@ async function addTempValue(temperature) {
 
         await tempCollection.insertOne({
             temperature: temperature,
-            time: Date.now()
-        })
+            time: Date.now().toLocaleString()
+        });
 
     } catch(err) {
 
         throw(err);
-    }
+    };
 
     client.close();
 }
@@ -115,11 +139,12 @@ async function addHumiValue(humidity) {
         await humiCollection.insertOne({
 
             humidity: humidity,
-            time: Date.now()
-        })
+            time: Date.now().toLocaleString()
+        });
+
     } catch (err) {
         throw(err);
-    }
+    };
 
     client.close();
 }
