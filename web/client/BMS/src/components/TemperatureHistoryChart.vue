@@ -1,22 +1,24 @@
 <template>
 
-<div class="TemperatureChart">
-    <line-chart
-        :chart-data="temperatureLineChart.chartData"
-        :gradient-color="temperatureLineChart.gradientColors"
-        :gradient-stops="temperatureLineChart.gradientStops"
-        :extra-options="temperatureLineChart.extraOptions"
-    ></line-chart>
-</div>
+    <div class="TemperatureChart">
+        <line-chart
+            v-if="!loading && !error"
+            :chart-data="chartData"
+            :gradient-color="gradientColors"
+            :gradient-stops="gradientStops"
+            :extra-options="extraOptions"
+        ></line-chart>
+    </div>
 
 </template>
+  
+  <script>
 
+  import LineChart from '@/components/LineChart.vue'
+  import axios from 'axios'
+  
 
-<script>
-
-import LineChart from '@/components/LineChart.vue'
-
-export default {
+  export default {
 
     name: "TemperatureHistoryChart",
 
@@ -26,95 +28,118 @@ export default {
 
     data() {
 
-        return {
+      return {
 
-            temperatureLineChart: {
+        loading: true,
+        error: null,
+        chartData: {
 
-                gradientColors: ['rgba(240, 175, 63, 0.2)', 'rgba(240, 175, 63, 0.0)', 'rgba(240, 175, 63, 0)'],
-                gradientStops: [1, 0.4, 0],
-                extraOptions: {
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                        display: false
-                        },
-                        title: {
-                        display: false
-                        }
+            labels: [],
+            datasets: [{
+
+                label: "Temperature",
+                fill: true,
+                backgroundColor: 'rgba(240, 175, 63, 0.2)',
+                borderColor: '#f0af3f',
+                borderWidth: 2,
+                borderDash: [],
+                borderDashOffset: 0.0,
+                pointBackgroundColor: '#f0af3f',
+                pointBorderColor: 'rgba(255,255,255,0)',
+                pointHoverBackgroundColor: '#f0af3f',
+                pointBorderWidth: 20,
+                pointHoverRadius: 4,
+                pointHoverBorderWidth: 15,
+                pointRadius: 4,
+                data: [],
+                tension: 0.35
+            }]
+        },
+        gradientColors: ['rgba(240, 175, 63, 0.2)', 'rgba(240, 175, 63, 0.0)', 'rgba(240, 175, 63, 0)'],
+        gradientStops: [1, 0.4, 0],
+        extraOptions: {
+            maintainAspectRatio: false,
+            plugins: {
+
+                legend: { display: false },
+                title: { display: false }
+            },
+            responsive: true,
+            scales: {
+                
+                y: {
+                    grid: {
+
+                        drawBorder: false,
+                        display: false,
+                        color: 'rgba(240, 175, 63, 0.1)',
+                        zeroLineColor: "transparent",
                     },
-                    responsive: true,
-                    tooltips: {
-                        backgroundColor: '#f5f5f5',
-                        titleFontColor: '#333',
-                        bodyFontColor: '#666',
-                        bodySpacing: 4,
-                        xPadding: 12,
-                        mode: "nearest",
-                        intersect: 0,
-                        position: "nearest"
-                    },
-                    scales: {
-                        y: {
-                            grid: {
-                                drawBorder: false,
-                                display: false,
-                                color: 'rgba(240, 175, 63, 0.1)',
-                                zeroLineColor: "transparent",
-                            },
-                            ticks: {
-                                suggestedMin: 0,
-                                suggestedMax: 40,
-                                padding: 20,
-                                color: "#f0af3f"
-                            }
-                        },
-                        x: {
-                            grid: {
-                                drawBorder: false,
-                                display: true,
-                                color: 'rgba(240, 175, 63, 0.1)',
-                                zeroLineColor: "transparent",
-                            },
-                            ticks: {
-                                padding: 20,
-                                color: "#f0af3f"
-                            }
-                        }
+                    ticks: {
+
+                        suggestedMin: 0,
+                        suggestedMax: 40,
+                        padding: 20,
+                        color: "#f0af3f"
                     }
                 },
-                chartData: {
-                    labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
-                    datasets: [{
-                        label: "Temperature",
-                        fill: true,
-                        backgroundColor: 'rgba(240, 175, 63, 0.2)',
-                        borderColor: '#f0af3f',
-                        borderWidth: 2,
-                        borderDash: [],
-                        borderDashOffset: 0.0,
-                        pointBackgroundColor: '#f0af3f',
-                        pointBorderColor: 'rgba(255,255,255,0)',
-                        pointHoverBackgroundColor: '#f0af3f',
-                        pointBorderWidth: 20,
-                        pointHoverRadius: 4,
-                        pointHoverBorderWidth: 15,
-                        pointRadius: 4,
-                        data: [18, 24, 19, 26, 22, 20],
-                        tension: 0.35
-                    }]
+                x: {
+                    grid: {
+
+                        drawBorder: false,
+                        display: true,
+                        color: 'rgba(240, 175, 63, 0.1)',
+                        zeroLineColor: "transparent",
+                    },
+                    ticks: {
+
+                        padding: 20,
+                        color: "#f0af3f"
+                    }
                 }
-            }       
+            }
+        }
+      }
+    },
+
+    mounted() {
+      this.fetchData()
+    },
+
+    methods: {
+
+        async fetchData() {
+
+            try {
+
+                const response = await axios.get('http://localhost:3000/environment/temperature/history');
+
+                const labels = response.data.timeStamps.map(timestamp => 
+                    new Date(timestamp).toLocaleTimeString()
+                );
+
+                this.chartData.labels = labels.reverse();
+                this.chartData.datasets[0].data = response.data.temperatureValues.reverse();
+
+                this.loading = false;
+
+            } catch (err) {
+                
+                console.error('Error fetching temperature history:', err);
+
+                this.error = err.message;
+                this.loading = false;
+            }
         }
     }
-}
+  }
+  </script>
+  
+  <style scoped>
 
-</script>
+    .TemperatureChart {
+        height: 280px;
+        width: 100%;
+    }
 
-
-<style scoped>
-
-.TemperatureChart {
-  height: 280px; 
-}
-
-</style>
+  </style>
