@@ -1,12 +1,12 @@
 #include "mqtt.h"
 #include "utils.h" // Utility methods
+#include "wifi.h" // WiFi client
 #include "secrets.h" // Credential variables
 #include "environment_sensor.h" // Environment collection methods
 
 
 // Declare MQTT object
 PubSubClient mqttClient;
-WiFiClient wifiClient;
 
 
 // Setup MQTT connection to broker 
@@ -42,8 +42,14 @@ void connectToMQTTBroker() {
 // Publish sensor data to MQTT broker
 void publishSensorData() {
 
-    mqttClient.publish("bms/environment/temperature", temperature);
-    mqttClient.publish("bms/environment/humidity", humidity);
+    char tempStr[10];
+    char humStr[10];
+    
+    dtostrf(temperature, 4, 2, tempStr);
+    dtostrf(humidity, 4, 2, humStr);
+    
+    mqttClient.publish("bms/environment/temperature", tempStr);
+    mqttClient.publish("bms/environment/humidity", humStr);
 }
 
 

@@ -1,5 +1,4 @@
-#include "rpcWiFi.h" // WiFi library
-#include "secrets.h" // Hidden credentials
+#include "wifi.h" // WiFi methods
 #include "utils.h" // Utility methods
 #include "mqtt.h" // MQTT methods
 #include "environment_sensor.h" // Temperature and Humidity methods
@@ -47,20 +46,4 @@ void loop() {
         readTemperatureAndHumidity();
         publishSensorData();
     }
-}
-
-
-// Connect to WiFi
-void connectToWiFi() {
-
-    // Attempt to connect to the WiFi network until a connection is established
-    while(!WiFi.isConnected()) {
-        displayText("Connecting to WiFi..", TFT_BLACK, BMS_ORANGE);
-        WiFi.begin(SSID, WIFI_PASSWORD);
-        delay(2000);
-    }
-
-    // Display confirmation
-    displayText("Wifi Connected!", TFT_BLACK, BMS_ORANGE);
-    delay(1500);
 }
