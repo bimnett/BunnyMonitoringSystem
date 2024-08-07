@@ -76,9 +76,9 @@ h1 {
 }
 .card {
   background-color: #27293d;
-  padding: 45px;
+  padding: 55px;
   border-radius: 5px;
-  width: 30%;
+  width: 43%;
 }
 .number {
   font-size: 24px;
@@ -90,8 +90,9 @@ h1 {
 }
 .chart {
   background-color: #27293d;
-  padding: 15px;
+  padding: 30px;
   border-radius: 5px;
+  margin-top: 40px;
   width: 46%;
   height: 350px; /* Adjust this value as needed */
   text-align: center;
