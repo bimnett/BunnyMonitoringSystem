@@ -12,10 +12,11 @@
 
 </template>
   
-  <script>
+<script>
 
   import LineChart from '@/components/LineChart.vue'
   import axios from 'axios'
+  import { AWS_EC2_PUB_IP, PORT } from '@/assets/client_secrets'
   
 
   export default {
@@ -112,7 +113,7 @@
 
             try {
 
-                const response = await axios.get('http://localhost:3000/environment/humidity/history');
+                const response = await axios.get(`http://${AWS_EC2_PUB_IP}:${PORT}/environment/humidity/history`);
 
                 const labels = response.data.timeStamps.map(timestamp => 
                     new Date(timestamp).toLocaleTimeString()
@@ -133,7 +134,7 @@
         }
     }
   }
-  </script>
+</script>
   
   <style scoped>
 

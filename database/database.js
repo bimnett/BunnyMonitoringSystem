@@ -117,7 +117,7 @@ async function addTempValue(temperature) {
 
         await tempCollection.insertOne({
             temperature: temperature,
-            time: Date.now().toLocaleString()
+            time: new Date(Date.now()).toLocaleTimeString()
         });
 
     } catch(err) {
