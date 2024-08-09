@@ -33,6 +33,7 @@ async function connectToDB() {
     }
 
     catch(err) {
+
         console.log(err);
     }
 }
@@ -116,13 +117,18 @@ async function addTempValue(temperature) {
         await connectToDB();
 
         await tempCollection.insertOne({
+
             temperature: temperature,
-            time: new Date(Date.now()).toLocaleTimeString()
+            time: new Date(Date.now()).toLocaleTimeString(undefined, { // Add Hour and minute as time attribute
+
+                hour: '2-digit',
+                minute: '2-digit'
+            })
         });
 
     } catch(err) {
 
-        throw(err);
+        console.log(err);
     };
 
     client.close();
@@ -139,11 +145,16 @@ async function addHumiValue(humidity) {
         await humiCollection.insertOne({
 
             humidity: humidity,
-            time: Date.now().toLocaleString()
+            time: new Date(Date.now()).toLocaleTimeString(undefined, { // Add Hour and minute as time attribute
+
+                hour: '2-digit',
+                minute: '2-digit'
+            })
         });
 
     } catch (err) {
-        throw(err);
+        
+        console.log(err);
     };
 
     client.close();
