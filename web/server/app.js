@@ -11,7 +11,7 @@ app.use(cors());
 
 const server = app.listen(SERVER_PORT, () => {
 
-  console.log(`Server is running on http://localhost:${SERVER_PORT}`);
+  console.log(`Server is running on port ${SERVER_PORT}`);
 });
 
 initializeWebSocketServer(server);
