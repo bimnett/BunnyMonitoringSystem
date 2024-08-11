@@ -115,9 +115,7 @@
 
                 const response = await axios.get(`http://${AWS_EC2_PUB_IP}:${PORT}/environment/humidity/history`);
 
-                const labels = response.data.timeStamps.map(timestamp => 
-                    new Date(timestamp).toLocaleTimeString()
-                );
+                const labels = response.data.timeStamps;
 
                 this.chartData.labels = labels.reverse();
                 this.chartData.datasets[0].data = response.data.humidityValues.reverse();
