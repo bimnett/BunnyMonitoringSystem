@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: 'https://bunny-monitoring-system.netlify.app' }));
 
 
 const server = app.listen(SERVER_PORT, () => {
@@ -14,11 +14,12 @@ const server = app.listen(SERVER_PORT, () => {
   console.log(`Server is running on port ${SERVER_PORT}`);
 });
 
+
 initializeWebSocketServer(server);
 
 
 // Fetch temperature history
-app.get('/environment/temperature/history', async (req, res) => {
+app.get('/api/environment/temperature/history', async (req, res) => {
 
   try {
 
@@ -34,7 +35,7 @@ app.get('/environment/temperature/history', async (req, res) => {
 
 
 // Fetch humidity history
-app.get('/environment/humidity/history', async (req, res) => {
+app.get('/api/environment/humidity/history', async (req, res) => {
 
   try {
 
@@ -50,7 +51,7 @@ app.get('/environment/humidity/history', async (req, res) => {
 
 
 // Post current temperature
-app.post('/environment/temperature/history', async (req, res) => {
+app.post('/api/environment/temperature/history', async (req, res) => {
 
   try {
 
@@ -68,7 +69,7 @@ app.post('/environment/temperature/history', async (req, res) => {
 
 
 // Post current humidity
-app.post('/environment/humidity/history', async (req, res) => {
+app.post('/api/environment/humidity/history', async (req, res) => {
 
   try {
 
