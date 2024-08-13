@@ -19,7 +19,7 @@ initializeWebSocketServer(server);
 
 
 // Fetch temperature history
-app.get('/api/environment/temperature/history', async (req, res) => {
+app.get('/environment/temperature/history', async (req, res) => {
 
   try {
 
@@ -35,7 +35,7 @@ app.get('/api/environment/temperature/history', async (req, res) => {
 
 
 // Fetch humidity history
-app.get('/api/environment/humidity/history', async (req, res) => {
+app.get('/environment/humidity/history', async (req, res) => {
 
   try {
 
@@ -51,7 +51,7 @@ app.get('/api/environment/humidity/history', async (req, res) => {
 
 
 // Post current temperature
-app.post('/api/environment/temperature/history', async (req, res) => {
+app.post('/environment/temperature/history', async (req, res) => {
 
   try {
 
@@ -69,7 +69,7 @@ app.post('/api/environment/temperature/history', async (req, res) => {
 
 
 // Post current humidity
-app.post('/api/environment/humidity/history', async (req, res) => {
+app.post('/environment/humidity/history', async (req, res) => {
 
   try {
 
