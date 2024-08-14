@@ -119,7 +119,7 @@ async function addTempValue(temperature) {
         await tempCollection.insertOne({
 
             temperature: temperature,
-            time: new Date(Date.now()).toLocaleTimeString(undefined, { // Add Hour and minute as time attribute
+            time: new Date(Date.now()).toLocaleTimeString('sv-SE', { // Add Hour and minute as time attribute
 
                 hour: '2-digit',
                 minute: '2-digit'
