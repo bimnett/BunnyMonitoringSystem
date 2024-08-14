@@ -120,7 +120,7 @@ async function addTempValue(temperature) {
 
             temperature: temperature,
             time: new Date(Date.now()).toLocaleTimeString('sv-SE', { // Add Hour and minute as time attribute
-
+                timeZone: 'Europe/Stockholm',
                 hour: '2-digit',
                 minute: '2-digit'
             })
@@ -146,7 +146,7 @@ async function addHumiValue(humidity) {
 
             humidity: humidity,
             time: new Date(Date.now()).toLocaleTimeString('sv-SE', { // Add Hour and minute as time attribute
-
+                timeZone: 'Europe/Stockholm',
                 hour: '2-digit',
                 minute: '2-digit'
             })
