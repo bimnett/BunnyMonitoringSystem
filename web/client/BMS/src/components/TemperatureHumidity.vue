@@ -1,10 +1,23 @@
 <template>
-  
+
+  <div class="card">
+    <h3>Temperature</h3>
+    <p v-if="temperature" class="number">{{ temperature }} °C</p>
+    <p v-else class="number">-- °C</p>
+  </div>
+
+  <div class="card">
+    <h3>Humidity</h3>
+    <p v-if="humidity" class="number">{{ humidity }}%</p>
+    <p v-else class="number">--%</p>
+  </div>
 
 </template>
 
 
 <script>
+
+import { mqttClient, setMqttMessageHandler } from '../../../../server/mqtt.js'
 
 export default {
 
@@ -17,44 +30,18 @@ export default {
     }
   },
 
-  watch: {
-    temperature(newValue) {
-      this.$emit('temperature-update', newValue);
-    },
-    humidity(newValue) {
-      this.$emit('humidity-update', newValue);
-    }
-  },
-
   mounted() {
 
-    this.setupWebSocket();
-  },
+    setMqttMessageHandler(({ temperature, humidity }) => {
 
-  methods: {
-    setupWebSocket() {
+      if (temperature !== undefined) {
+        this.temperature = temperature;
+      }
 
-        const ws = new WebSocket('ws://localhost:3000');
-        
-        ws.onmessage = (event) => {
-
-            const { topic, message } = JSON.parse(event.data);
-
-            if (topic === 'bms/environment/temperature') {
-                this.temperature = message;
-            } else if (topic === 'bms/environment/humidity') {
-                this.humidity = message;
-            }
-        };
-        
-        ws.onerror = (error) => {
-            console.error("WebSocket error:", error);
-        };
-        
-        ws.onclose = () => {
-            console.log("WebSocket connection closed.");
-        };
-    }
+      if (humidity !== undefined) {
+        this.humidity = humidity;
+      }
+    });
   },
 
   name: 'TemperatureHumidity'
@@ -72,11 +59,16 @@ export default {
     margin-right: 20px;
   }
 
-  #environmentData {
+  .card {
+  background-color: #27293d;
+  padding: 45px;
+  border-radius: 5px;
+  width: 43%;
+  }
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .number {
+  font-size: 24px;
+  font-weight: bold;
   }
 
 </style>

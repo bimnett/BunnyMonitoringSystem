@@ -4,16 +4,7 @@
       <h1>Dashboard</h1>
     </header>
     <div class="stats-cards">
-      <div class="card">
-        <h3>Temperature</h3>
-        <p v-if="temperature" class="number">{{ temperature }} °C</p>
-        <p v-else class="number">-- °C</p>
-      </div>
-      <div class="card">
-        <h3>Humidity</h3>
-        <p v-if="humidity" class="number">{{ humidity }}%</p>
-        <p v-else class="number">--%</p>
-      </div>
+      <TemperatureHumidity />
     </div>
     <div class="charts">
       <div class="chart">
@@ -29,9 +20,9 @@
 </template>
 
 <script>
-import { useEnvironmentData } from '@/composables/useEnvironmentData'
 import TemperatureHistoryChart from '@/components/TemperatureHistoryChart.vue'
 import HumidityHistoryChart from '@/components/HumidityHistoryChart.vue'
+import TemperatureHumidity from '@/components/TemperatureHumidity.vue'
 
 export default {
 
@@ -39,17 +30,8 @@ export default {
 
   components: {
     TemperatureHistoryChart,
-    HumidityHistoryChart
-  },
-
-  setup() {
-
-    const { temperature, humidity } = useEnvironmentData();
-
-    return {
-      temperature,
-      humidity
-    }
+    HumidityHistoryChart,
+    TemperatureHumidity
   }
 }
 </script>
@@ -74,23 +56,13 @@ h1 {
   margin-bottom: 50px;
   text-align: center;
 }
-.card {
-  background-color: #27293d;
-  padding: 55px;
-  border-radius: 5px;
-  width: 43%;
-}
-.number {
-  font-size: 24px;
-  font-weight: bold;
-}
 .charts {
   display: flex;
   justify-content: space-between;
 }
 .chart {
   background-color: #27293d;
-  padding: 30px;
+  padding: 24px;
   border-radius: 5px;
   margin-top: 40px;
   width: 46%;
