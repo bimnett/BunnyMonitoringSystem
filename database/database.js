@@ -47,14 +47,12 @@ async function getTempHistory() {
     try {
 
         const latestReadings = await tempCollection.find()
-            .sort({ time: -1 }) // sort by time in descending order to get the latest entries
+            .sort({ time: 1 }) // sort by time in descending order to get the latest entries
             .limit(24)
             .toArray();
         
-        const reversedReadings = latestReadings.reverse();
-
-        const timeStamps = getTimeStamps(reversedReadings);
-        const temperatureValues = getEnvironmentData(reversedReadings, 'temperature');
+        const timeStamps = getTimeStamps(latestReadings);
+        const temperatureValues = getEnvironmentData(latestReadings, 'temperature');
 
         return { timeStamps, temperatureValues };
 
@@ -75,14 +73,12 @@ async function getHumiHistory() {
     try {
 
         const latestReadings = await humiCollection.find()
-            .sort({ time: -1 }) // sort by time in descending order to get the latest entries
+            .sort({ time: 1 }) // sort by time in descending order to get the latest entries
             .limit(24)
             .toArray();
 
-        const reversedReadings = latestReadings.reverse();
-
-        const timeStamps = getTimeStamps(reversedReadings);
-        const humidityValues = getEnvironmentData(reversedReadings, 'humidity');
+        const timeStamps = getTimeStamps(latestReadings);
+        const humidityValues = getEnvironmentData(latestReadings, 'humidity');
 
         return { timeStamps, humidityValues };
 
@@ -99,7 +95,7 @@ async function getHumiHistory() {
 function getTimeStamps(environmentArray) {
 
     return environmentArray.map(doc => new Date(doc.time).toLocaleTimeString('sv-SE', { 
-        
+
         timeZone: 'Europe/Stockholm',
         hour: '2-digit',
         minute: '2-digit'
