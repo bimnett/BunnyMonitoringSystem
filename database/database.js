@@ -47,7 +47,7 @@ async function getTempHistory() {
     try {
 
         const latestReadings = await tempCollection.find()
-            .sort({ time: 1 }) // sort by time in descending order to get the latest entries
+            .sort({ time: -1 }) // sort by time in descending order to get the latest entries
             .limit(24)
             .toArray();
         
@@ -73,7 +73,7 @@ async function getHumiHistory() {
     try {
 
         const latestReadings = await humiCollection.find()
-            .sort({ time: 1 }) // sort by time in descending order to get the latest entries
+            .sort({ time: -1 }) // sort by time in descending order to get the latest entries
             .limit(24)
             .toArray();
 
