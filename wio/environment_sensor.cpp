@@ -26,25 +26,25 @@ void initializeTempHumiSensor() {
 
 
 // Read and display current environment readings
-void readTemperatureAndHumidity() {
+void readAndDisplayTemperatureAndHumidity() {
 
+    // Save current temp/humidity data to previous variable
     previousTemp = int(temperature);
     previousHumi = int(humidity);
 
-
+    // Read temperature and humidity
     tempHumiSensor.measureHighPrecision(temperature, humidity);
 
+    // Round temp/humi values
+    temperature = roundToDecimalPlace(temperature, 1);
+    humidity = roundToDecimalPlace(humidity, 1);
 
-    // Update display only if current temperature/humidity value differs from previous
-    if(int(temperature) != previousTemp) {
+    Serial.println("Temperature: " + String(temperature));
+    Serial.println("Humidity: " + String(humidity));
 
-        displayTemperature();
-    }
-
-    if(int(humidity) != previousHumi) {
-
-        displayHumidity();
-    }
+    // Update temperature/humidity display
+    displayTemperature();
+    displayHumidity();
 }
 
 
@@ -54,14 +54,14 @@ void displayTemperature() {
     // Clear previous reading
     tft.setTextColor(BMS_ORANGE);
     tft.setTextSize(5);
-    tft.drawString(String((int)previousTemp) + "C", tft.width() / 3 - 30, tft.height() / 3 + 80);
+    tft.drawString(String(int(previousTemp)) + "C", tft.width() / 3 - 30, tft.height() / 3 + 80);
 
     // Draw new temperature value
     tft.setTextColor(TFT_BLACK);
     tft.setTextSize(3);
     tft.drawString("Temp", tft.width() / 3 - 30, tft.height() / 3 + 15);
     tft.setTextSize(5);
-    tft.drawString(String((int)temperature) + "C", tft.width() / 3 - 30, tft.height() / 3 + 80);
+    tft.drawString(String(int(temperature)) + "C", tft.width() / 3 - 30, tft.height() / 3 + 80);
 }
 
 
@@ -71,12 +71,12 @@ void displayHumidity() {
     // Clear previous reading
     tft.setTextColor(BMS_ORANGE);
     tft.setTextSize(5);
-    tft.drawString(String((int)previousHumi) + "%", tft.width() / 3 * 2 + 30, tft.height() / 3 + 80);
+    tft.drawString(String(int(previousHumi)) + "%", tft.width() / 3 * 2 + 30, tft.height() / 3 + 80);
 
     // Draw new humidity value
     tft.setTextColor(TFT_BLACK);
     tft.setTextSize(3);
     tft.drawString("Humi", tft.width() / 3 * 2 + 30, tft.height() / 3 + 15);
     tft.setTextSize(5);
-    tft.drawString(String((int)humidity) + "%", tft.width() / 3 * 2 + 30, tft.height() / 3 + 80);
+    tft.drawString(String(int(humidity)) + "%", tft.width() / 3 * 2 + 30, tft.height() / 3 + 80);
 }

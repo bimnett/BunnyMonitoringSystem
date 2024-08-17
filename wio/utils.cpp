@@ -1,4 +1,3 @@
-
 /**********************************************
  *                                            *
  * This file contains utility functions for   *
@@ -62,4 +61,18 @@ void drawDashboard() {
 
     tft.drawString("Happy Bunny Monitoring!", tft.width() / 2, 35);
     tft.drawLine(tft.width() / 2, 35, tft.width() / 2, tft.height(), TFT_BLACK);
+}
+
+
+// Round floating point numbers
+float roundToDecimalPlace(float num, int decimals) {
+
+
+  if(decimals > 0) {
+
+    float multiplier = pow(10, decimals);
+    return round(num * multiplier) / multiplier;
+  }
+
+  return round(num);
 }
