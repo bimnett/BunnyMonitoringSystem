@@ -44,7 +44,7 @@ export default {
   font-family: 'Poppins', sans-serif;
 }
 .header {
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   text-align: center;
 }
 h1 {
@@ -53,7 +53,6 @@ h1 {
 .stats-cards {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
   text-align: center;
 }
 .charts {
@@ -65,7 +64,7 @@ h1 {
   padding: 24px;
   border-radius: 5px;
   margin-top: 40px;
-  width: 46%;
+  width: 45%;
   height: 350px; /* Adjust this value as needed */
   text-align: center;
   display: flex;
