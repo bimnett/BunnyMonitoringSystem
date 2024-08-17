@@ -11,6 +11,6 @@ extern float humidity;
 void initializeTempHumiSensor();
 void displayTemperature();
 void displayHumidity();
-void readTemperatureAndHumidity();
+void readAndDisplayTemperatureAndHumidity();
 
 #endif

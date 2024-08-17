@@ -3,11 +3,9 @@
 
 
 #include <PubSubClient.h> // MQTT library
-#include "rpcWiFiClient.h" // WiFi library
 
 
 extern PubSubClient mqttClient;
-extern WiFiClient wifiClient;
 
 
 // MQTT method signatures
