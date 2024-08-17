@@ -116,8 +116,8 @@
 
                 const labels = response.data.timeStamps;
 
-                this.chartData.labels = labels.reverse();
-                this.chartData.datasets[0].data = response.data.temperatureValues.reverse();
+                this.chartData.labels = labels;
+                this.chartData.datasets[0].data = response.data.temperatureValues;
 
                 this.loading = false;
 

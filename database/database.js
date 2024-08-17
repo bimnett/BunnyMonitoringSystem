@@ -39,7 +39,7 @@ async function connectToDB() {
 }
 
 
-// Fetch 25 latest temperature readings
+// Fetch 24 latest temperature readings
 async function getTempHistory() {
 
     await connectToDB();
@@ -48,11 +48,13 @@ async function getTempHistory() {
 
         const latestReadings = await tempCollection.find()
             .sort({ time: -1 }) // sort by time in descending order to get the latest entries
-            .limit(48)
+            .limit(24)
             .toArray();
         
-        const timeStamps = getTimeStamps(latestReadings);
-        const temperatureValues = getEnvironmentData(latestReadings, 'temperature');
+        const reversedReadings = latestReadings.reverse();
+
+        const timeStamps = getTimeStamps(reversedReadings);
+        const temperatureValues = getEnvironmentData(reversedReadings, 'temperature');
 
         return { timeStamps, temperatureValues };
 
@@ -65,7 +67,7 @@ async function getTempHistory() {
 }
 
 
-// Fetch 25 latest humidity readings
+// Fetch 24 latest humidity readings
 async function getHumiHistory() {
 
     await connectToDB();
@@ -74,11 +76,13 @@ async function getHumiHistory() {
 
         const latestReadings = await humiCollection.find()
             .sort({ time: -1 }) // sort by time in descending order to get the latest entries
-            .limit(48)
+            .limit(24)
             .toArray();
 
-        const timeStamps = getTimeStamps(latestReadings);
-        const humidityValues = getEnvironmentData(latestReadings, 'humidity');
+        const reversedReadings = latestReadings.reverse();
+
+        const timeStamps = getTimeStamps(reversedReadings);
+        const humidityValues = getEnvironmentData(reversedReadings, 'humidity');
 
         return { timeStamps, humidityValues };
 
@@ -94,9 +98,12 @@ async function getHumiHistory() {
 // Iterate through JSON array and extract time stamps for visual chart X axis.
 function getTimeStamps(environmentArray) {
 
-    const timeStamps = environmentArray.map(doc => doc.time);
-
-    return timeStamps;
+    return environmentArray.map(doc => new Date(doc.time).toLocaleTimeString('sv-SE', { 
+        
+        timeZone: 'Europe/Stockholm',
+        hour: '2-digit',
+        minute: '2-digit'
+    }));
 }
 
 
@@ -119,11 +126,7 @@ async function addTempValue(temperature) {
         await tempCollection.insertOne({
 
             temperature: temperature,
-            time: new Date(Date.now()).toLocaleTimeString('sv-SE', { // Add Hour and minute as time attribute
-                timeZone: 'Europe/Stockholm',
-                hour: '2-digit',
-                minute: '2-digit'
-            })
+            time: new Date()
         });
 
     } catch(err) {
@@ -145,11 +148,7 @@ async function addHumiValue(humidity) {
         await humiCollection.insertOne({
 
             humidity: humidity,
-            time: new Date(Date.now()).toLocaleTimeString('sv-SE', { // Add Hour and minute as time attribute
-                timeZone: 'Europe/Stockholm',
-                hour: '2-digit',
-                minute: '2-digit'
-            })
+            time: new Date()
         });
 
     } catch (err) {
